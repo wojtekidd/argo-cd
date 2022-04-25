@@ -354,6 +354,13 @@ function getActionItems(
             action: () => appContext.apis.navigation.goto('.', {node: nodeKey(resource), tab: 'logs'}, {replace: true})
         });
     }
+    if (resource.kind === 'Pod') {
+        items.push({
+            title: 'Exec',
+            iconClassName: 'fa fa-terminal',
+            action: () => appContext.apis.navigation.goto('.', {node: nodeKey(resource), tab: 'exec'}, {replace: true})
+        });
+    }
     if (isQuickStart) {
         return from([items]);
     }
@@ -806,9 +813,6 @@ export function isAppNode(node: appModels.ResourceNode) {
 }
 
 export function getAppOverridesCount(app: appModels.Application) {
-    if (app.spec.source.ksonnet && app.spec.source.ksonnet.parameters) {
-        return app.spec.source.ksonnet.parameters.length;
-    }
     if (app.spec.source.kustomize && app.spec.source.kustomize.images) {
         return app.spec.source.kustomize.images.length;
     }
